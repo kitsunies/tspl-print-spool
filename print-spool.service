@@ -1,0 +1,28 @@
+[Unit]
+Description=TSPL Print Spool Service
+Documentation=https://github.com/kitsunies/tspl-print-spool
+After=cups.service network.target
+Wants=cups.service
+
+[Service]
+Type=simple
+User=root
+Group=lp
+WorkingDirectory=/opt/print-spool
+ExecStart=/usr/bin/python3 /opt/print-spool/spool.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=SPOOL_HOST=0.0.0.0
+Environment=SPOOL_PORT=5200
+Environment=SPOOL_DB_PATH=/var/lib/print-spool/jobs.db
+
+# Printer config — match your label stock and CUPS printer name
+Environment=PRINTER_NAME=THERMAL_LABEL
+Environment=PRINTER_DPI=203
+Environment=LABEL_WIDTH_MM=100
+Environment=LABEL_HEIGHT_MM=150
+
+[Install]
+WantedBy=multi-user.target
