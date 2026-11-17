@@ -1,5 +1,17 @@
 # tspl-print-spool
 
+Retired in November 2026. Use [munbyn-print](https://github.com/kitsunies/munbyn-print)
+for driverless printing over BLE, classic Bluetooth SPP or USB. This repository is
+archived as historical source; the old service is no longer used by Depop.
+
+To migrate callers, replace base64 JSON submissions to `POST /print/job` with raw
+PDF bytes sent to `POST /print`. The replacement responds after the transport
+write completes and has no persistent queue or automatic retry. Use `GET /health`
+for server availability. A print timeout can follow partial output, so check the
+printer before a manual retry. BLE bitmap jobs can take several minutes.
+
+The documentation below describes the retired implementation.
+
 A small HTTP service that turns PDFs and images into **TSPL** for thermal label
 printers, and queues them reliably.
 
